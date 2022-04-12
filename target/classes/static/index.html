@@ -32,7 +32,8 @@
 <script>
     window.onload = function () {
         const ui = SwaggerUIBundle({
-            url: "/v2/api-docs", //Location of Open API spec in the repo
+            swagger: "2.0",
+            url: "v2/api-docs", //Location of Open API spec in the repo
             dom_id: '#swagger-ui',
             deepLinking: true,
             presets: [
