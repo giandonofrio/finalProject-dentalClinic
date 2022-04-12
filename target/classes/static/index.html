@@ -28,5 +28,27 @@
     </nav>
 </header>
     <h1 class="text-center m-3">Clinica Dental - Proyecto</h1>
+<<<<<<< HEAD
+=======
+    <div id="swagger-ui"></div>
+<script>
+    window.onload = function () {
+        const ui = SwaggerUIBundle({
+            swagger: "2.0",
+            url: "v2/api-docs", //Location of Open API spec in the repo
+            dom_id: '#swagger-ui',
+            deepLinking: true,
+            presets: [
+                SwaggerUIBundle.presets.apis,
+                SwaggerUIBundle.SwaggerUIStandalonePreset
+            ],
+            plugins: [
+                SwaggerUIBundle.plugins.DownloadUrl
+            ],
+        })
+        window.ui = ui
+    }
+</script>
+>>>>>>> 702142d35dbfb9e7af250d50aaf68e54602a9fec
 </body>
 </html>
