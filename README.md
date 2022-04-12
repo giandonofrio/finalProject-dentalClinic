@@ -1,6 +1,6 @@
 # Final project: Dental clinic for BackEnd-1 (ApiREST)
 ## Description
-The project is a REST API of a dental clinic, where you can add, delete, act or list, patients, dentists and appointments.
+The project is a REST API of a dental clinic, where you can add, delete, update or list patients, dentists and appointments.
 
 You can use the endpoints behind `http://localhost:8080/`
 
