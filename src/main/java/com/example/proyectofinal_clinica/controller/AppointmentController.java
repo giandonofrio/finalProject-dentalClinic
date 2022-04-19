@@ -1,5 +1,6 @@
 package com.example.proyectofinal_clinica.controller;
 
+import com.example.proyectofinal_clinica.exceptions.ResourceNotFoundException;
 import com.example.proyectofinal_clinica.model.AppointmentDto;
 import com.example.proyectofinal_clinica.model.DentistDto;
 import com.example.proyectofinal_clinica.model.PatientDto;
@@ -31,7 +32,7 @@ public class AppointmentController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createAppointment(@RequestBody AppointmentDto appointmentDto) {
+    public ResponseEntity<?> createAppointment(@RequestBody AppointmentDto appointmentDto) throws ResourceNotFoundException {
 
         PatientDto patientDto = patientService.findById(appointmentDto.getPatient().getId());
         DentistDto dentistDto = dentistService.findById(appointmentDto.getDentist().getId());

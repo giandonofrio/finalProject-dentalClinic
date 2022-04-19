@@ -1,12 +1,8 @@
 package com.example.proyectofinal_clinica.service.impl;
 
 import com.example.proyectofinal_clinica.model.AppointmentDto;
-import com.example.proyectofinal_clinica.model.DentistDto;
 import com.example.proyectofinal_clinica.persistence.entity.Appointment;
-import com.example.proyectofinal_clinica.persistence.entity.Dentist;
-import com.example.proyectofinal_clinica.persistence.repository.IAddressRepository;
 import com.example.proyectofinal_clinica.persistence.repository.IAppointmentRepository;
-import com.example.proyectofinal_clinica.persistence.repository.IDentistRepository;
 import com.example.proyectofinal_clinica.service.IAppointmentService;
 import com.sun.istack.NotNull;
 import org.modelmapper.ModelMapper;
@@ -15,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Service
 public class AppointmentService implements IAppointmentService {
 
@@ -40,9 +37,7 @@ public class AppointmentService implements IAppointmentService {
 
     @Override
     public void deleteById(Long id) {
-        Appointment appointment = appointmentRepository.getById(id);
-        appointmentRepository.delete(appointment);
-
+        appointmentRepository.deleteById(id);
     }
 
     @Override

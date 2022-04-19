@@ -1,9 +1,7 @@
 package com.example.proyectofinal_clinica.service.impl;
 
 import com.example.proyectofinal_clinica.model.AddressDto;
-import com.example.proyectofinal_clinica.model.DentistDto;
 import com.example.proyectofinal_clinica.persistence.entity.Address;
-import com.example.proyectofinal_clinica.persistence.entity.Dentist;
 import com.example.proyectofinal_clinica.persistence.repository.IAddressRepository;
 import com.example.proyectofinal_clinica.service.IAddressService;
 import com.sun.istack.NotNull;
@@ -41,7 +39,6 @@ public class AddressService implements IAddressService {
         Address address = addressRepository.getById(id);
         addressRepository.delete(address);
     }
-
     @Override
     public AddressDto update(AddressDto addressDto) {
         Address address = mapToEntity(addressDto);

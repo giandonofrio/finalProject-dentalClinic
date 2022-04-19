@@ -1,5 +1,6 @@
 package com.example.proyectofinal_clinica.service.impl;
 
+import com.example.proyectofinal_clinica.exceptions.ResourceNotFoundException;
 import com.example.proyectofinal_clinica.model.PatientDto;
 import com.example.proyectofinal_clinica.persistence.entity.Patient;
 import com.example.proyectofinal_clinica.persistence.repository.IPatientRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Service
 public class PatientService implements IPatientService {
 
@@ -20,34 +22,47 @@ public class PatientService implements IPatientService {
     private ModelMapper modelMapper;
 
     @Override
-    public PatientDto findById(Long id) {
+    public PatientDto findById(Long id) throws ResourceNotFoundException {
+        if (patientRepository.findById(id).isEmpty()) {
+            throw new ResourceNotFoundException("Patient not found with id: " + id);
+        }
         Patient patient = patientRepository.getById(id);
         return mapToDto(patient);
     }
 
     @Override
-    public PatientDto save(PatientDto patientDto) {
+    public PatientDto save(PatientDto patientDto) throws ResourceNotFoundException {
+        if (patientDto == null) {
+            throw new ResourceNotFoundException("Patient not created");
+        }
         Patient patient = mapToEntity(patientDto);
         Patient patientSaved = patientRepository.save(patient);
         return mapToDto(patientSaved);
     }
 
     @Override
-    public void deleteById(Long id) {
-        Patient patient = patientRepository.getById(id);
-        patientRepository.delete(patient);
-
+    public void deleteById(Long id) throws ResourceNotFoundException {
+        if (patientRepository.findById(id).isEmpty()) {
+            throw new ResourceNotFoundException("Patient not found with id: " + id);
+        }
+        patientRepository.deleteById(id);
     }
 
     @Override
-    public PatientDto update(PatientDto patientDto) {
+    public PatientDto update(PatientDto patientDto) throws ResourceNotFoundException {
+        if (patientRepository.findAll().isEmpty()) {
+            throw new ResourceNotFoundException("Patient not found with id: " + patientDto.getId());
+        }
         Patient patient = mapToEntity(patientDto);
         Patient patientUpdated = patientRepository.save(patient);
         return mapToDto(patientUpdated);
     }
 
     @Override
-    public List<PatientDto> findAll() {
+    public List<PatientDto> findAll() throws ResourceNotFoundException {
+        if (patientRepository.findAll().isEmpty()) {
+            throw new ResourceNotFoundException("Patients not found");
+        }
         List<Patient> patients = patientRepository.findAll();
         return patients.stream().map(this::mapToDto).collect(Collectors.toList());
     }
