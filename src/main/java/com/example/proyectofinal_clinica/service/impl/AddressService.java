@@ -1,5 +1,6 @@
 package com.example.proyectofinal_clinica.service.impl;
 
+import com.example.proyectofinal_clinica.exceptions.ResourceNotFoundException;
 import com.example.proyectofinal_clinica.model.AddressDto;
 import com.example.proyectofinal_clinica.persistence.entity.Address;
 import com.example.proyectofinal_clinica.persistence.repository.IAddressRepository;
@@ -9,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.LinkOption;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,32 +24,47 @@ public class AddressService implements IAddressService {
     private ModelMapper modelMapper;
 
     @Override
-    public AddressDto findById(@NotNull Long id) {
+    public AddressDto findById(@NotNull Long id) throws ResourceNotFoundException {
+        if (addressRepository.findById(id).isEmpty()) {
+            throw new ResourceNotFoundException("Address not found");
+        }
         Address address = addressRepository.getById(id);
         return mapToDto(address);
     }
 
     @Override
-    public AddressDto save(@NotNull AddressDto addressDto) {
+    public AddressDto save(@NotNull AddressDto addressDto) throws ResourceNotFoundException {
+        if (addressDto == null) {
+            throw new ResourceNotFoundException("Address not created");
+        }
+        Address address = mapToEntity(addressDto);
+        return mapToDto(addressRepository.save(address));
+    }
+
+    @Override
+    public void deleteById(@NotNull Long id) throws ResourceNotFoundException {
+        if (addressRepository.findById(id).isEmpty()) {
+            throw new ResourceNotFoundException("Address not found with id: " + id);
+        }
+        addressRepository.deleteById(id);
+
+    }
+
+    @Override
+    public AddressDto update(@NotNull AddressDto addressDto) throws ResourceNotFoundException {
+        if (addressRepository.findById(addressDto.getId()).isEmpty()) {
+            throw new ResourceNotFoundException("Address not found with ID: " + addressDto.getId());
+        }
         Address address = mapToEntity(addressDto);
         Address addressSaved = addressRepository.save(address);
         return mapToDto(addressSaved);
     }
 
     @Override
-    public void deleteById(Long id) {
-        Address address = addressRepository.getById(id);
-        addressRepository.delete(address);
-    }
-    @Override
-    public AddressDto update(AddressDto addressDto) {
-        Address address = mapToEntity(addressDto);
-        Address addressSaved = addressRepository.save(address);
-        return mapToDto(addressSaved);
-    }
-
-    @Override
-    public List<AddressDto> findAll() {
+    public List<AddressDto> findAll() throws ResourceNotFoundException {
+        if (addressRepository.findAll().isEmpty()) {
+            throw new ResourceNotFoundException("Addresses not found");
+        }
         List<Address> addressesList = addressRepository.findAll();
         return addressesList.stream().map(this::mapToDto).collect(Collectors.toList());
     }

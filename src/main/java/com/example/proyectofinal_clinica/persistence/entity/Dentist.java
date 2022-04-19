@@ -1,17 +1,19 @@
 package com.example.proyectofinal_clinica.persistence.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @Table(name = "dentists")
-@EqualsAndHashCode
 public class Dentist {
 
     @Id
@@ -21,9 +23,23 @@ public class Dentist {
     private Long id;
     private String name;
     private String lastName;
-    private String matricula;
+    private String enrollment;
 
     @OneToMany(mappedBy = "dentist",fetch = FetchType.LAZY)
     @JsonIgnore
+    @ToString.Exclude
     private Set<Appointment> appointments;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Dentist dentist = (Dentist) o;
+        return id != null && Objects.equals(id, dentist.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

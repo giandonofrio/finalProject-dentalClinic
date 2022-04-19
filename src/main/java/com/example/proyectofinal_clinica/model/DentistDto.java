@@ -1,18 +1,27 @@
 package com.example.proyectofinal_clinica.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class DentistDto {
 
     private Long id;
     private String name;
     private String lastName;
-    private String matricula;
+    private String enrollment;
 
+    public DentistDto(Long id) {
+        this.id = id;
+    }
 
+    public DentistDto(String name, String lastName, String enrollment) {
+        this.name = name;
+        this.lastName = lastName;
+        this.enrollment = enrollment;
+    }
+
+    public DentistDto() {
+    }
 }
+

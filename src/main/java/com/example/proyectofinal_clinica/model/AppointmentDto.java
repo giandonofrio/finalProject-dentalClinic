@@ -1,18 +1,24 @@
 package com.example.proyectofinal_clinica.model;
 
-import lombok.AllArgsConstructor;
+import com.example.proyectofinal_clinica.persistence.entity.Patient;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class AppointmentDto {
 
     private Long id;
     private LocalDate dateAppointment;
-    private PatientDto patient;
-    private DentistDto dentist;
+    private PatientDto patientDto;
+    private DentistDto dentistDto;
+
+    public AppointmentDto(LocalDate dateAppointment, PatientDto patientDto, DentistDto dentistDto) {
+        this.dateAppointment = dateAppointment;
+        this.patientDto = patientDto;
+        this.dentistDto = dentistDto;
+    }
+
+    public AppointmentDto() {
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.proyectofinal_clinica.service.impl;
 
+import com.example.proyectofinal_clinica.exceptions.ResourceNotFoundException;
 import com.example.proyectofinal_clinica.model.AppointmentDto;
 import com.example.proyectofinal_clinica.persistence.entity.Appointment;
 import com.example.proyectofinal_clinica.persistence.repository.IAppointmentRepository;
@@ -23,32 +24,48 @@ public class AppointmentService implements IAppointmentService {
     private ModelMapper modelMapper;
 
     @Override
-    public AppointmentDto findById(@NotNull Long id) {
+    public AppointmentDto findById(@NotNull Long id)  throws ResourceNotFoundException  {
+       if (appointmentRepository.findById(id).isEmpty()) {
+           throw new ResourceNotFoundException("Appointment not found with id: " + id);
+       }
         Appointment appointment = appointmentRepository.getById(id);
         return mapToDto(appointment);
     }
 
     @Override
-    public AppointmentDto save(AppointmentDto appointmentDto) {
+    public AppointmentDto save(@NotNull AppointmentDto appointmentDto) throws ResourceNotFoundException{
+        if (appointmentDto == null) {
+            throw new ResourceNotFoundException("Appointment not created");
+        }
         Appointment appointment = mapToEntity(appointmentDto);
         Appointment appointmentSaved = appointmentRepository.save(appointment);
         return mapToDto(appointmentSaved);
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Long id) throws ResourceNotFoundException {
+       if (appointmentRepository.findById(id).isEmpty()) {
+           throw new ResourceNotFoundException("Appointment not found with id: " + id);
+       }
+
         appointmentRepository.deleteById(id);
     }
 
     @Override
-    public AppointmentDto update(AppointmentDto appointmentDto) {
+    public AppointmentDto update(@NotNull AppointmentDto appointmentDto)  throws ResourceNotFoundException{
+        if (appointmentRepository.findAll().isEmpty()) {
+            throw new ResourceNotFoundException("Appointment not found with id: " + appointmentDto.getId());
+        }
         Appointment appointment = mapToEntity(appointmentDto);
         Appointment appointmentSaved = appointmentRepository.save(appointment);
         return mapToDto(appointmentSaved);
     }
 
     @Override
-    public List<AppointmentDto> findAll() {
+    public List<AppointmentDto> findAll() throws ResourceNotFoundException{
+        if (appointmentRepository.findAll().isEmpty()) {
+            throw new ResourceNotFoundException("Appointment not found");
+        }
         List<Appointment> appointments = appointmentRepository.findAll();
         return appointments.stream().map(this::mapToDto).collect(Collectors.toList());
     }

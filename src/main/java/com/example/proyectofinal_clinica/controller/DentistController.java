@@ -1,9 +1,9 @@
 package com.example.proyectofinal_clinica.controller;
 
+import com.example.proyectofinal_clinica.exceptions.ResourceNotFoundException;
 import com.example.proyectofinal_clinica.model.DentistDto;
 import com.example.proyectofinal_clinica.service.impl.DentistService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,38 +17,33 @@ public class DentistController {
     private DentistService dentistService;
 
     @GetMapping
-    public ResponseEntity<List<DentistDto>> getAllDentists() {
+    public ResponseEntity getAllDentists() throws ResourceNotFoundException {
         List<DentistDto> dentists = dentistService.findAll();
-        if (dentists.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(dentists);
+        return ResponseEntity.ok("Dentists: " + dentists);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DentistDto> getDentist(@PathVariable Long id) {
-        if (dentistService.findById(id) == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return new ResponseEntity<>(dentistService.findById(id), HttpStatus.OK);
+    public ResponseEntity getDentist(@PathVariable Long id) throws ResourceNotFoundException {
+        dentistService.findById(id);
+        return ResponseEntity.ok("Dentist found" + dentistService.findById(id).toString());
     }
 
     @PostMapping
-    public ResponseEntity<DentistDto> createDentist(@RequestBody DentistDto dentistDto) {
-        return new ResponseEntity<>(dentistService.save(dentistDto), HttpStatus.CREATED);
+    public ResponseEntity createDentist(@RequestBody DentistDto dentistDto) throws ResourceNotFoundException {
+        DentistDto dentistCreated = dentistService.save(dentistDto);
+        return ResponseEntity.ok("Dentist created: " + dentistCreated.getLastName() + ", " + dentistCreated.getName() + " with ID: " + dentistCreated.getId());
+
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DentistDto> updateDentist(@RequestBody DentistDto dentistDto, @PathVariable Long id) {
-        return ResponseEntity.ok(dentistService.update(dentistDto));
+    public ResponseEntity updateDentist(@RequestBody DentistDto dentistDto, @PathVariable Long id) throws ResourceNotFoundException {
+        dentistService.update(dentistDto);
+        return ResponseEntity.ok("Patient updated");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDentist(@PathVariable Long id) {
-        if (dentistService.findById(id) == null) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity deleteDentist(@PathVariable Long id) throws ResourceNotFoundException {
         dentistService.deleteById(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Dentist deleted");
     }
 }

@@ -4,7 +4,6 @@ import com.example.proyectofinal_clinica.exceptions.ResourceNotFoundException;
 import com.example.proyectofinal_clinica.model.PatientDto;
 import com.example.proyectofinal_clinica.service.impl.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,13 +27,13 @@ public class PatientController {
     public ResponseEntity createPatient(@RequestBody PatientDto patientDto) throws ResourceNotFoundException {
         patientDto.setAdmissionDate(LocalDate.now());
         PatientDto patientCreated = patientService.save(patientDto);
-        return ResponseEntity.ok("Patient created" + patientCreated);
+        return ResponseEntity.ok("Patient created: " + patientCreated.getLastName() + ", " + patientCreated.getName() + " with ID: " + patientCreated.getId());
     }
 
     @GetMapping
     public ResponseEntity getAllPatients() throws ResourceNotFoundException {
         List<PatientDto> patientDtoList = patientService.findAll();
-        return ResponseEntity.ok("Patients found: " + patientDtoList.toString());
+        return ResponseEntity.ok("Patients: " + patientDtoList);
     }
 
     @DeleteMapping("/{id}")
@@ -50,8 +49,4 @@ public class PatientController {
         return ResponseEntity.ok("Patient updated");
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<String> handleException(Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-    }
 }

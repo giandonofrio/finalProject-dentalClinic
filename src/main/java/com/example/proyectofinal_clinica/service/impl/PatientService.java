@@ -5,6 +5,7 @@ import com.example.proyectofinal_clinica.model.PatientDto;
 import com.example.proyectofinal_clinica.persistence.entity.Patient;
 import com.example.proyectofinal_clinica.persistence.repository.IPatientRepository;
 import com.example.proyectofinal_clinica.service.IPatientService;
+import com.sun.istack.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class PatientService implements IPatientService {
     private ModelMapper modelMapper;
 
     @Override
-    public PatientDto findById(Long id) throws ResourceNotFoundException {
+    public PatientDto findById(@NotNull Long id) throws ResourceNotFoundException {
         if (patientRepository.findById(id).isEmpty()) {
             throw new ResourceNotFoundException("Patient not found with id: " + id);
         }
@@ -31,7 +32,7 @@ public class PatientService implements IPatientService {
     }
 
     @Override
-    public PatientDto save(PatientDto patientDto) throws ResourceNotFoundException {
+    public PatientDto save(@NotNull PatientDto patientDto) throws ResourceNotFoundException {
         if (patientDto == null) {
             throw new ResourceNotFoundException("Patient not created");
         }
@@ -41,7 +42,7 @@ public class PatientService implements IPatientService {
     }
 
     @Override
-    public void deleteById(Long id) throws ResourceNotFoundException {
+    public void deleteById( @NotNull Long id) throws ResourceNotFoundException {
         if (patientRepository.findById(id).isEmpty()) {
             throw new ResourceNotFoundException("Patient not found with id: " + id);
         }
@@ -49,7 +50,7 @@ public class PatientService implements IPatientService {
     }
 
     @Override
-    public PatientDto update(PatientDto patientDto) throws ResourceNotFoundException {
+    public PatientDto update(@NotNull PatientDto patientDto) throws ResourceNotFoundException {
         if (patientRepository.findAll().isEmpty()) {
             throw new ResourceNotFoundException("Patient not found with id: " + patientDto.getId());
         }
