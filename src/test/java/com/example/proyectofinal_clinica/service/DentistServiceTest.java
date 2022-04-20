@@ -2,9 +2,11 @@ package com.example.proyectofinal_clinica.service;
 
 import com.example.proyectofinal_clinica.exceptions.ResourceNotFoundException;
 import com.example.proyectofinal_clinica.model.DentistDto;
+import com.example.proyectofinal_clinica.persistence.entity.Dentist;
 import com.example.proyectofinal_clinica.service.impl.DentistService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -12,6 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class DentistServiceTest {
+    @Autowired
+    private ModelMapper modelMapper;
+
 
     @Autowired
     private DentistService dentistService;
@@ -49,8 +54,7 @@ class DentistServiceTest {
     @Test
     public void getAllDentistTest() throws ResourceNotFoundException {
         dentistService.save(this.dentistDto);
+
         assertNotNull(dentistService.findAll());
     }
-
-
 }

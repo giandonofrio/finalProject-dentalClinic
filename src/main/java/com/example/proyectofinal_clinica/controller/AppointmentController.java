@@ -1,5 +1,6 @@
 package com.example.proyectofinal_clinica.controller;
 
+import com.example.proyectofinal_clinica.exceptions.BadRequestException;
 import com.example.proyectofinal_clinica.exceptions.ResourceNotFoundException;
 import com.example.proyectofinal_clinica.model.AppointmentDto;
 import com.example.proyectofinal_clinica.service.impl.AppointmentService;
@@ -22,9 +23,9 @@ public class AppointmentController {
     }
 
     @PostMapping
-    public ResponseEntity createAppointment(@RequestBody AppointmentDto appointmentDto) throws ResourceNotFoundException {
-        appointmentService.save(appointmentDto);
-        return ResponseEntity.ok("Appointment created, date: " + appointmentDto.getDateAppointment());
+    public ResponseEntity createAppointment(@RequestBody AppointmentDto appointmentDto) throws ResourceNotFoundException, BadRequestException {
+        AppointmentDto appointmentDtoCreated = appointmentService.save(appointmentDto);
+        return ResponseEntity.ok("Appointment created, date: " + appointmentDtoCreated.getDateAppointment());
 
     }
 

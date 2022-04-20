@@ -51,7 +51,7 @@ public class AddressService implements IAddressService {
     }
 
     @Override
-    public AddressDto update(@NotNull AddressDto addressDto) throws ResourceNotFoundException {
+    public AddressDto update( AddressDto addressDto) throws ResourceNotFoundException {
         if (addressRepository.findById(addressDto.getId()).isEmpty()) {
             throw new ResourceNotFoundException("Address not found with ID: " + addressDto.getId());
         }

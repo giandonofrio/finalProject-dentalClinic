@@ -1,11 +1,11 @@
 package com.example.proyectofinal_clinica.service;
 
+import com.example.proyectofinal_clinica.exceptions.BadRequestException;
 import com.example.proyectofinal_clinica.exceptions.ResourceNotFoundException;
 import com.example.proyectofinal_clinica.model.AddressDto;
 import com.example.proyectofinal_clinica.model.AppointmentDto;
 import com.example.proyectofinal_clinica.model.DentistDto;
 import com.example.proyectofinal_clinica.model.PatientDto;
-import com.example.proyectofinal_clinica.persistence.entity.Appointment;
 import com.example.proyectofinal_clinica.service.impl.AppointmentService;
 import com.example.proyectofinal_clinica.service.impl.DentistService;
 import com.example.proyectofinal_clinica.service.impl.PatientService;
@@ -19,7 +19,7 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class AppointmentServiceTest {
+public class AppointmentServiceTest {
 
     @Autowired
     private AppointmentService appointmentService;
@@ -34,41 +34,38 @@ class AppointmentServiceTest {
 
     @BeforeEach
     public void setUp() {
-        AddressDto addressDto = new AddressDto( "Calle de la Calle", "1235", "12345", "123456789");
-        dentistDto = new DentistDto("Juan", "Perez", "AE060CA");
-        patientDto = new PatientDto("Juan", "Perez", "123456789", LocalDate.now(), addressDto);
+        AddressDto addressDto = new AddressDto("Calle de la Calle", "1235", "12345", "123456789"); // create address
+        dentistDto = new DentistDto("Juan", "Perez", "AE060CA"); // create dentist
+        patientDto = new PatientDto("Juan", "Perez", "123456789", LocalDate.now(), addressDto); // create patient
     }
 
     @Test
-    public void createAppointmentTest() throws ResourceNotFoundException {
-        DentistDto dentistDto = dentistService.save(this.dentistDto);
-        PatientDto patientDto = patientService.save(this.patientDto);
-        appointmentDto = new AppointmentDto(LocalDate.now(), patientDto, dentistDto);
-        AppointmentDto appointmentDto = appointmentService.save(this.appointmentDto);
-        assertNotNull(appointmentDto);
+    public void createAppointmentTest() throws ResourceNotFoundException, BadRequestException {
+        DentistDto dentistDto = dentistService.save(this.dentistDto); // save dentist
+        PatientDto patientDto = patientService.save(this.patientDto); // save patient
+        appointmentDto = new AppointmentDto(LocalDate.now(), patientDto, dentistDto); // create appointment
+        AppointmentDto appointmentDto = appointmentService.save(this.appointmentDto); // save appointment
+        assertNotNull(appointmentDto); // check if appointment is saved
     }
 
     @Test
-    public void deleteAppointmentTest() throws ResourceNotFoundException {
-        DentistDto dentistDto = dentistService.save(this.dentistDto);
-        PatientDto patientDto = patientService.save(this.patientDto);
-        appointmentDto = new AppointmentDto(LocalDate.now(), patientDto, dentistDto);
-        AppointmentDto appointmentDto = appointmentService.save(this.appointmentDto);
-        appointmentService.deleteById(appointmentDto.getId());
-        assertThrows(ResourceNotFoundException.class, () -> appointmentService.findById(appointmentDto.getId()));
+    public void deleteAppointmentTest() throws ResourceNotFoundException, BadRequestException {
+        DentistDto dentistDto = dentistService.save(this.dentistDto); // save dentist
+        PatientDto patientDto = patientService.save(this.patientDto); // save patient
+        appointmentDto = new AppointmentDto(LocalDate.now(), patientDto, dentistDto); // create appointment
+        AppointmentDto appointmentDto = appointmentService.save(this.appointmentDto); // save appointment
+        appointmentService.deleteById(appointmentDto.getId()); // delete appointment
+        assertThrows(ResourceNotFoundException.class, () -> appointmentService.findById(appointmentDto.getId())); // check if appointment is deleted
     }
 
     @Test
-    public void updateAppointmentTest() throws ResourceNotFoundException {
-        DentistDto dentistDto = dentistService.save(this.dentistDto);
-        PatientDto patientDto = patientService.save(this.patientDto);
-        AppointmentDto appointmentDto = new AppointmentDto(LocalDate.now(), patientDto, dentistDto);
-
-        AppointmentDto updatedAppointmentDto = appointmentService.save(appointmentDto);
-        updatedAppointmentDto.setDateAppointment(LocalDate.of(2020, 1, 1));
-
-        assertNotEquals(appointmentDto.getDateAppointment(), updatedAppointmentDto.getDateAppointment());
-
-
+    public void updateAppointmentTest() throws ResourceNotFoundException, BadRequestException {
+        DentistDto dentistDto = dentistService.save(this.dentistDto); // save dentist
+        PatientDto patientDto = patientService.save(this.patientDto); // save patient
+        AppointmentDto appointmentDto = new AppointmentDto(LocalDate.now(), patientDto, dentistDto); // create appointment
+        AppointmentDto updatedAppointmentDto = appointmentService.save(appointmentDto); // save appointment
+        updatedAppointmentDto.setDateAppointment(LocalDate.of(2020, 1, 1));  // update appointment date
+        assertNotEquals(appointmentDto.getDateAppointment(), updatedAppointmentDto.getDateAppointment()); // compare dates before and after update
     }
+
 }

@@ -23,7 +23,7 @@ public class DentistService implements IDentistService {
     private ModelMapper modelMapper;
 
     @Override
-    public DentistDto findById(@NotNull Long id) throws ResourceNotFoundException {
+    public DentistDto findById(Long id) throws ResourceNotFoundException {
         if (dentistRepository.findById(id).isEmpty()) {
             throw new ResourceNotFoundException("Dentist not found with id:" + id);
         }
@@ -32,7 +32,7 @@ public class DentistService implements IDentistService {
     }
 
     @Override
-    public DentistDto save(@NotNull DentistDto dentistDto) throws ResourceNotFoundException {
+    public DentistDto save(DentistDto dentistDto) throws ResourceNotFoundException {
         if (dentistDto == null) {
             throw new ResourceNotFoundException("Dentist not created");
         }
@@ -42,7 +42,7 @@ public class DentistService implements IDentistService {
     }
 
     @Override
-    public void deleteById(@NotNull Long id) throws ResourceNotFoundException {
+    public void deleteById(Long id) throws ResourceNotFoundException {
         if (dentistRepository.findById(id).isEmpty()) {
             throw new ResourceNotFoundException("Dentist not found with id:" + id);
         }
@@ -50,7 +50,7 @@ public class DentistService implements IDentistService {
     }
 
     @Override
-    public DentistDto update(@NotNull DentistDto dentistDto) throws ResourceNotFoundException {
+    public DentistDto update(DentistDto dentistDto) throws ResourceNotFoundException {
         if (dentistRepository.findAll().isEmpty()) {
             throw new ResourceNotFoundException("Dentist not found with id:" + dentistDto.getId());
         }

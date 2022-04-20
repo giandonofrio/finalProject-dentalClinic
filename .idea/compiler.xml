@@ -8,11 +8,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="proyectoFinal-clinica" />
+        <module name="finalProject-dentalClinic" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="finalProject-dentalClinic" options="-parameters" />
       <module name="proyectoFinal-clinica" options="-parameters" />
     </option>
   </component>
