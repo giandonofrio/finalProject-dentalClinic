@@ -1,5 +1,7 @@
 package com.example.finalproject_clinic.model;
 
+import com.example.finalproject_clinic.persistence.entity.Dentist;
+import com.example.finalproject_clinic.persistence.entity.Patient;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -9,15 +11,7 @@ public class AppointmentDto {
 
     private Long id;
     private LocalDate dateAppointment;
-    private PatientDto patientDto;
-    private DentistDto dentistDto;
+    private Patient patient;
+    private Dentist dentist;
 
-    public AppointmentDto(LocalDate dateAppointment, PatientDto patientDto, DentistDto dentistDto) {
-        this.dateAppointment = dateAppointment;
-        this.patientDto = patientDto;
-        this.dentistDto = dentistDto;
-    }
-
-    public AppointmentDto() {
-    }
 }

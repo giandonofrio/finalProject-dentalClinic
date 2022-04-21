@@ -1,5 +1,6 @@
 package com.example.finalproject_clinic.config;
 
+import com.example.finalproject_clinic.persistence.entity.security.RolesUser;
 import com.example.finalproject_clinic.service.impl.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,12 +28,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/appointments/**").hasAuthority("USER")
-                .antMatchers("/patients/**", "/dentist/**").hasAuthority("ADMIN")
-                .antMatchers("/index.html","/patients.html","/dentist.html").hasAuthority("ADMIN")
-                .antMatchers("/appointments.html").hasAuthority("USER")
+                .antMatchers("/api/appointments/**").hasAuthority(RolesUser.USER.name())
+                .antMatchers("/api/patients/**", "/api/dentist/**", "/api/appointments/**").hasAuthority(RolesUser.ADMIN.name())
+                .antMatchers("/html/index.html", "/html/patients.html", "/html/dentist.html", "/html/appointments.html").hasAuthority(RolesUser.ADMIN.name())
+                .antMatchers("/html/appointments.html").hasAuthority(RolesUser.USER.name())
                 .anyRequest().authenticated().and()
-                .formLogin();
+                .exceptionHandling().accessDeniedPage("/403").and()
+                .formLogin().permitAll().and().httpBasic();
         http.headers().frameOptions().disable();
     }
 

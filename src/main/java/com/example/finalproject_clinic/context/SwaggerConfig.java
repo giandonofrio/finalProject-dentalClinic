@@ -1,5 +1,6 @@
 package com.example.finalproject_clinic.context;
 
+import com.example.finalproject_clinic.FinalProjectClinicApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
@@ -13,19 +14,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.Collections;
 
 @Configuration
-@EnableSwagger2
 public class SwaggerConfig {
 
-    @Bean
-    public Docket api(){
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.example.proyectofinal_clinica.controller"))
-                .paths(PathSelectors.any())
-                .build()
-                .apiInfo(apiInfo());
-    }
 
+    @Bean
+    public Docket api() {
+        return new Docket(DocumentationType.SWAGGER_2).select()
+                .apis(RequestHandlerSelectors.basePackage(FinalProjectClinicApplication.class.getPackage().getName()))
+                .paths(PathSelectors.any()).build().apiInfo(apiInfo());
+    }
     private ApiInfo apiInfo(){
         return new ApiInfo(
                 "Clinica API",

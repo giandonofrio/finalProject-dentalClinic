@@ -50,20 +50,20 @@
                     <div class="modal-body">
                         <form>
                             <div class="mb-3">
-                                <input type="text" class="form-control" id="name" placeholder="Date Appointment">
+                                <input type="text" class="form-control" id="dateAppointment" placeholder="Date Appointment">
+                            </div>
+                            <div class="mb-3 d-flex gap-3">
+                                <input type="text" class="form-control" id="patient_id" placeholder="Patient ID">
                             </div>
                             <div class="mb-3">
-                                <input type="text" class="form-control" id="lastName" placeholder="Patient">
-                            </div>
-                            <div class="mb-3">
-                                <input type="text" class="form-control" id="admissionDate" placeholder="Dentist">
+                                <input type="text" class="form-control" id="dentist_id" placeholder="Dentist ID">
 
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Add</button>
+                        <button type="button" class="btn btn-primary" onclick="addAppointment()">Add</button>
                     </div>
                 </div>
             </div>

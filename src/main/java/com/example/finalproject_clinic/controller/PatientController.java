@@ -4,6 +4,7 @@ import com.example.finalproject_clinic.exceptions.ResourceNotFoundException;
 import com.example.finalproject_clinic.model.PatientDto;
 import com.example.finalproject_clinic.service.impl.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,21 +20,21 @@ public class PatientController {
 
     @GetMapping("/{id}")
     public ResponseEntity getPatient(@PathVariable Long id) throws ResourceNotFoundException {
-        patientService.findById(id);
-        return ResponseEntity.ok("Patient found: " + patientService.findById(id).toString());
+        PatientDto patientDtoFound = patientService.findById(id);
+        return new ResponseEntity<>(patientDtoFound, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity createPatient(@RequestBody PatientDto patientDto) throws ResourceNotFoundException {
         patientDto.setAdmissionDate(LocalDate.now());
-        PatientDto patientCreated = patientService.save(patientDto);
-        return ResponseEntity.ok("Patient created: " + patientCreated.getLastName() + ", " + patientCreated.getName() + " with ID: " + patientCreated.getId());
+        patientService.save(patientDto);
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     @GetMapping
     public ResponseEntity getAllPatients() throws ResourceNotFoundException {
         List<PatientDto> patientDtoList = patientService.findAll();
-        return ResponseEntity.ok("Patients: " + patientDtoList);
+        return ResponseEntity.ok(patientDtoList);
     }
 
     @DeleteMapping("/{id}")
@@ -44,7 +45,7 @@ public class PatientController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updatePatient(@PathVariable Long id, @RequestBody PatientDto patientDto) throws ResourceNotFoundException {
+    public ResponseEntity updatePatient( @RequestBody PatientDto patientDto) throws ResourceNotFoundException {
         patientService.update(patientDto);
         return ResponseEntity.ok("Patient updated");
     }

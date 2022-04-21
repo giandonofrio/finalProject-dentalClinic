@@ -1,7 +1,7 @@
 package com.example.finalproject_clinic.persistence.entity.security;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,42 +11,41 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Objects;
 
 @Getter
-@Setter
 @ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Entity
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_seq")
+    @SequenceGenerator(name = "users_seq", sequenceName = "users_seq", allocationSize = 1)
     private Long id;
-    private String dni;
+    @Setter
+    private String name;
+    @Setter
+    private String username;
+    @Setter
     private String email;
+    @Setter
     private String password;
+    @Enumerated(EnumType.STRING)
+    private RolesUser userRole;
 
-    public User(String dni, String email, String password, RolesUser rolesUser) {
-        this.dni = dni;
+    public User(String name, String username, String email, String password, RolesUser userRole) {
+        this.name = name;
+        this.username = username;
         this.email = email;
         this.password = password;
-        this.rolesUser = rolesUser;
+        this.userRole = userRole;
     }
-
-    @Enumerated(EnumType.STRING)
-    private RolesUser rolesUser;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(rolesUser.name());
+        SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(userRole.name());
         return Collections.singleton(grantedAuthority);
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
     }
 
     @Override
@@ -67,18 +66,5 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id.equals(user.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash();
     }
 }

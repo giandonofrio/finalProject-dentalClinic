@@ -21,10 +21,6 @@ public class AppointmentService implements IAppointmentService {
 
     @Autowired
     private IAppointmentRepository appointmentRepository;
-    @Autowired
-    private PatientService patientService;
-    @Autowired
-    private DentistService dentistService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -40,12 +36,6 @@ public class AppointmentService implements IAppointmentService {
 
     @Override
     public AppointmentDto save(AppointmentDto appointmentDto) throws ResourceNotFoundException, BadRequestException {
-
-        if (appointmentDto.getPatientDto().getId() == null || appointmentDto.getDentistDto().getId() == null) {
-            PatientDto patientDto = patientService.findById(appointmentDto.getPatientDto().getId());
-            DentistDto dentistDto = dentistService.findById(appointmentDto.getDentistDto().getId());
-            throw new ResourceNotFoundException("Patient or Dentist not found with id");
-        }
 
         Appointment appointment = mapToEntity(appointmentDto);
         Appointment appointmentSaved = appointmentRepository.save(appointment);

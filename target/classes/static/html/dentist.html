@@ -49,19 +49,20 @@
                     <div class="modal-body">
                         <form>
                             <div class="mb-3 d-flex gap-3">
-                                <input type="text" class="form-control" id="recipient-name" placeholder="Name">
-                                <input type="text" class="form-control" id="recipient-lastName" placeholder="LastName"
+                                <input type="text" class="form-control" id="name" placeholder="Name">
+                                <input type="text" class="form-control" id="lastName" placeholder="LastName"
                                 >
 
                             </div>
                             <div class="mb-3">
-                                <input type="text" class="form-control" id="recipient-dni" placeholder="Enrollment">
+                                <input type="text" class="form-control" id="enrollment"
+                                       placeholder="Enrollment">
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Add</button>
+                        <button type="button" class="btn btn-primary" onclick="addDentist()">Add</button>
                     </div>
                 </div>
             </div>

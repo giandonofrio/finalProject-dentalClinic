@@ -7,11 +7,20 @@ function getPatients() {
     fetch("/api/patients", {
         method: "GET",
         headers: {
+            'Accept': 'application/json',
             "Content-Type": "application/json"
         }
+
     })
-        .then(res => res.json())
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else {
+                throw new Error("No patients created yet");
+            }
+        })
         .then(data => {
+
             let html = '';
             data.forEach(patient => {
                 html += `
@@ -46,23 +55,24 @@ function addPatients() {
             province: document.getElementById("province").value,
         }
     }
-    if (patient.name === '' || patient.lastName === '' || patient.dni === '' || patient.address.street === '' || patient.address.number === '' || patient.address.location === '' || patient.address.province === '') {
-        alert('Por favor complete todos los campos');
-        return;
-    } else {
-        fetch('/api/patients', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(patient)
+
+    fetch('/api/patients', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(patient)
+    })
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else {
+                throw new Error("Error creating patient");
+            }
         })
-            .then(res => res.json())
-            .then(() => {
-                location.reload();
-            })
-    }
+        .then((res) => {
+            location.reload()
+        })
 
 }
 

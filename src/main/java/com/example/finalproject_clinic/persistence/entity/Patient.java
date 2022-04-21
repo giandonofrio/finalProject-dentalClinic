@@ -1,7 +1,8 @@
 package com.example.finalproject_clinic.persistence.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.Data;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -10,10 +11,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
+
+@Data
 @Entity
 @Table(name = "patients")
 public class Patient {
@@ -22,6 +21,8 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "patients_seq")
     @SequenceGenerator(name = "patients_seq", sequenceName = "patients_seq", allocationSize = 1)
     private Long id;
+
+
     private String name;
     private String lastName;
     private String dni;
@@ -31,7 +32,7 @@ public class Patient {
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
-    @OneToMany(mappedBy = "patient" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     @ToString.Exclude
     private Set<Appointment> appointments = new HashSet<>();

@@ -6,10 +6,8 @@ import org.hibernate.Hibernate;
 import javax.persistence.*;
 import java.util.Objects;
 
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
+
+@Data
 @Entity
 @Table(name = "addresses")
 public class Address {
@@ -18,7 +16,6 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "addresses_seq")
     @SequenceGenerator(name = "address_seq", sequenceName = "address_seq", allocationSize = 1)
     private Long id;
-
     private String street;
     private String number;
     private String location;
@@ -27,13 +24,13 @@ public class Address {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
-        return id != null && Objects.equals(id, address.id);
+        return Objects.equals(id, address.id) && Objects.equals(street, address.street) && Objects.equals(number, address.number) && Objects.equals(location, address.location) && Objects.equals(province, address.province);
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hash(id, street, number, location, province);
     }
 }

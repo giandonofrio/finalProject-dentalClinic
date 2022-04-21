@@ -5,6 +5,7 @@ import com.example.finalproject_clinic.exceptions.ResourceNotFoundException;
 import com.example.finalproject_clinic.model.AppointmentDto;
 import com.example.finalproject_clinic.service.impl.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,16 +17,23 @@ public class AppointmentController {
 
     @Autowired
     private AppointmentService appointmentService;
+
     @GetMapping
     public ResponseEntity getAllAppointments() throws ResourceNotFoundException {
         List<AppointmentDto> appointmentDtoList = appointmentService.findAll();
-        return ResponseEntity.ok("Appointments: " + appointmentDtoList);
+        return ResponseEntity.ok(appointmentDtoList);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity getAppointmentById(@PathVariable Long id) throws ResourceNotFoundException {
+        AppointmentDto appointmentDto = appointmentService.findById(id);
+        return new ResponseEntity<>(appointmentDto, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity createAppointment(@RequestBody AppointmentDto appointmentDto) throws ResourceNotFoundException, BadRequestException {
-        AppointmentDto appointmentDtoCreated = appointmentService.save(appointmentDto);
-        return ResponseEntity.ok("Appointment created, date: " + appointmentDtoCreated.getDateAppointment());
+        appointmentService.save(appointmentDto);
+        return ResponseEntity.ok(HttpStatus.CREATED);
 
     }
 
@@ -35,6 +43,11 @@ public class AppointmentController {
         return ResponseEntity.ok("Appointment deleted");
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity updateAppointmen(@RequestBody AppointmentDto appointmentDto) throws ResourceNotFoundException {
+        appointmentService.update(appointmentDto);
+        return ResponseEntity.ok("Appointment updated");
+    }
 }
 
 

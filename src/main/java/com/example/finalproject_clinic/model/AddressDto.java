@@ -10,14 +10,4 @@ public class AddressDto {
     private String location;
     private String province;
 
-
-    public AddressDto(String street, String number, String location, String province) {
-        this.street = street;
-        this.number = number;
-        this.location = location;
-        this.province = province;
-    }
-
-    public AddressDto() {
-    }
 }

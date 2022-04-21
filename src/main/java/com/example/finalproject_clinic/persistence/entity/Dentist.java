@@ -8,10 +8,8 @@ import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
+
+@Data
 @Entity
 @Table(name = "dentists")
 public class Dentist {

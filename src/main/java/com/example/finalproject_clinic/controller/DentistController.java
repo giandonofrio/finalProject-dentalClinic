@@ -4,6 +4,7 @@ import com.example.finalproject_clinic.exceptions.ResourceNotFoundException;
 import com.example.finalproject_clinic.model.DentistDto;
 import com.example.finalproject_clinic.service.impl.DentistService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,20 +19,20 @@ public class DentistController {
 
     @GetMapping
     public ResponseEntity getAllDentists() throws ResourceNotFoundException {
-        List<DentistDto> dentists = dentistService.findAll();
-        return ResponseEntity.ok("Dentists: " + dentists);
+        List<DentistDto> dentistDtoList = dentistService.findAll();
+        return ResponseEntity.ok(dentistDtoList);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity getDentist(@PathVariable Long id) throws ResourceNotFoundException {
-        dentistService.findById(id);
-        return ResponseEntity.ok("Dentist found" + dentistService.findById(id).toString());
+        DentistDto dentist = dentistService.findById(id);
+        return new ResponseEntity<>(dentist, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity createDentist(@RequestBody DentistDto dentistDto) throws ResourceNotFoundException {
-        DentistDto dentistCreated = dentistService.save(dentistDto);
-        return ResponseEntity.ok("Dentist created: " + dentistCreated.getLastName() + ", " + dentistCreated.getName() + " with ID: " + dentistCreated.getId());
+        dentistService.save(dentistDto);
+        return ResponseEntity.ok(HttpStatus.CREATED);
 
     }
 

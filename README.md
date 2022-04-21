@@ -6,6 +6,6 @@ You can use the endpoints behind `http://localhost:8080/`
 
 ## How does it work?
 
-Actually, much better if you just start the application and navigate to `http://localhost:8080/swagger-ui.html`. There you'll find a nice API documentation thanks to Swagger.
+Actually, much better if you just start the application and navigate to `http://localhost:8080/swagger-ui/z`. There you'll find a nice API documentation thanks to Swagger.
 
 ![Swagger Documentation](images/swagger.png)
