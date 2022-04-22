@@ -20,10 +20,8 @@ function getAppointments() {
             }
         })
         .then(data => {
-            console.log(data)
             let html = '';
             data.forEach(appointment => {
-                console.log(appointment)
                 html += `
             <tr>
                 <td>${appointment.id}</td>
