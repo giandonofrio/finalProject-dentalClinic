@@ -6,8 +6,6 @@ import com.example.finalproject_clinic.model.AddressDto;
 import com.example.finalproject_clinic.model.AppointmentDto;
 import com.example.finalproject_clinic.model.DentistDto;
 import com.example.finalproject_clinic.model.PatientDto;
-import com.example.finalproject_clinic.persistence.entity.Dentist;
-import com.example.finalproject_clinic.persistence.entity.Patient;
 import com.example.finalproject_clinic.service.impl.AppointmentService;
 import com.example.finalproject_clinic.service.impl.DentistService;
 import com.example.finalproject_clinic.service.impl.PatientService;
@@ -43,18 +41,18 @@ public class AppointmentServiceTest {
 
     @Test
     public void createAppointmentTest() throws ResourceNotFoundException, BadRequestException {
-
-       // save patient
-        //appointmentDto = new AppointmentDto(LocalDate.now(), patientDto, dentistDto); // create appointment
-        AppointmentDto appointmentDto = appointmentService.save(this.appointmentDto); // save appointment
-        assertNotNull(appointmentDto); // check if appointment is saved
+        PatientDto patientDto = patientService.save(this.patientDto);
+        DentistDto dentistDto = dentistService.save(this.dentistDto);
+        appointmentDto = new AppointmentDto(LocalDate.now(), patientDto, dentistDto);
+        appointmentService.save(appointmentDto);
+        assertNotNull(appointmentDto);
     }
 
     @Test
     public void deleteAppointmentTest() throws ResourceNotFoundException, BadRequestException {
         DentistDto dentistDto = dentistService.save(this.dentistDto); // save dentist
         PatientDto patientDto = patientService.save(this.patientDto); // save patient
-       // appointmentDto = new AppointmentDto(LocalDate.now(), patientDto, dentistDto); // create appointment
+        appointmentDto = new AppointmentDto(LocalDate.now(), patientDto, dentistDto); // create appointment
         AppointmentDto appointmentDto = appointmentService.save(this.appointmentDto); // save appointment
         appointmentService.deleteById(appointmentDto.getId()); // delete appointment
         assertThrows(ResourceNotFoundException.class, () -> appointmentService.findById(appointmentDto.getId())); // check if appointment is deleted
@@ -64,7 +62,7 @@ public class AppointmentServiceTest {
     public void updateAppointmentTest() throws ResourceNotFoundException, BadRequestException {
         DentistDto dentistDto = dentistService.save(this.dentistDto); // save dentist
         PatientDto patientDto = patientService.save(this.patientDto); // save patient
-        //AppointmentDto appointmentDto = new AppointmentDto(LocalDate.now(), patientDto, dentistDto); // create appointment
+        AppointmentDto appointmentDto = new AppointmentDto(LocalDate.now(), patientDto, dentistDto); // create appointment
         AppointmentDto updatedAppointmentDto = appointmentService.save(appointmentDto); // save appointment
         updatedAppointmentDto.setDateAppointment(LocalDate.of(2020, 1, 1));  // update appointment date
         assertNotEquals(appointmentDto.getDateAppointment(), updatedAppointmentDto.getDateAppointment()); // compare dates before and after update

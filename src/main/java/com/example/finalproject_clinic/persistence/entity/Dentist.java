@@ -40,4 +40,5 @@ public class Dentist {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }

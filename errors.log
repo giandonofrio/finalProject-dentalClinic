@@ -138,3 +138,12 @@
 [2022-04-21 16:42:35] [ERROR] [GlobalException:14] Appointment not found
 [2022-04-21 16:43:53] [ERROR] [GlobalException:14] Appointment not found
 [2022-04-21 16:43:54] [ERROR] [GlobalException:14] Appointment not found
+[2022-04-23 19:18:20] [ERROR] [GlobalException:14] Appointment not found
+[2022-04-23 19:19:06] [ERROR] [GlobalException:14] Patients not found
+[2022-04-23 19:19:07] [ERROR] [GlobalException:14] Patients not found
+[2022-04-23 19:20:43] [ERROR] [GlobalException:14] Appointment not found
+[2022-04-23 19:20:47] [ERROR] [GlobalException:14] Appointment not found
+[2022-04-23 19:24:01] [ERROR] [GlobalException:14] Appointment not found
+[2022-04-23 19:50:58] [ERROR] [GlobalException:14] Patients not found
+[2022-04-23 19:51:00] [ERROR] [GlobalException:14] Dentists not found
+[2022-04-23 19:51:01] [ERROR] [GlobalException:14] Appointment not found

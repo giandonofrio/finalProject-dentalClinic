@@ -34,7 +34,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/html/appointments.html").hasAuthority(RolesUser.USER.name())
                 .anyRequest().authenticated().and()
                 .exceptionHandling().accessDeniedPage("/403").and()
-                .formLogin().permitAll().and().httpBasic();
+                .formLogin().permitAll().and().httpBasic().and()
+                .logout(logout -> logout
+                        .logoutUrl("/logout.html")
+                );
         http.headers().frameOptions().disable();
     }
 

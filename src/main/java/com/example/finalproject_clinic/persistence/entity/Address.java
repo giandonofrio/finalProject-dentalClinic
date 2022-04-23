@@ -33,4 +33,5 @@ public class Address {
     public int hashCode() {
         return Objects.hash(id, street, number, location, province);
     }
+
 }

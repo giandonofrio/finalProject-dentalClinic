@@ -32,7 +32,7 @@ public class AddressService implements IAddressService {
     }
 
     @Override
-    public AddressDto save(@NotNull AddressDto addressDto) throws ResourceNotFoundException {
+    public AddressDto save(AddressDto addressDto) throws ResourceNotFoundException {
         if (addressDto == null) {
             throw new ResourceNotFoundException("Address not created");
         }

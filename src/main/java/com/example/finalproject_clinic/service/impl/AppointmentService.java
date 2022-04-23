@@ -36,7 +36,6 @@ public class AppointmentService implements IAppointmentService {
 
     @Override
     public AppointmentDto save(AppointmentDto appointmentDto) throws ResourceNotFoundException, BadRequestException {
-
         Appointment appointment = mapToEntity(appointmentDto);
         Appointment appointmentSaved = appointmentRepository.save(appointment);
         return mapToDto(appointmentSaved);

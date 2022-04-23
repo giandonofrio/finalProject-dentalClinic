@@ -27,7 +27,7 @@ class AddressServiceTest {
 
     @Test
     public void createAddressTest() throws ResourceNotFoundException {
-        AddressDto addressDto = addressService.save(this.addressDto);
+       AddressDto addressDto = addressService.save(this.addressDto);
         assert (addressDto.getId() != null);
     }
 
